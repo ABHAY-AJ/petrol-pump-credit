@@ -1,3 +1,7 @@
+
+if(process.env.NODE_ENV != "production"){
+    require('dotenv').config();
+}
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -9,7 +13,9 @@ const Transaction = require("./models/Transaction");
 
 const app = express();
 
-mongoose.connect('mongodb://localhost/petrol-pump-credit', { useNewUrlParser: true, useUnifiedTopology: true });
+const dbUrl = process.env.ATLASDB_URL;
+
+mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -17,7 +23,7 @@ app.use(session({
     secret: 'secret',
     resave: true,
     saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: 'mongodb://localhost/petrol-pump-credit' })
+    store: MongoStore.create({ mongoUrl: dbUrl})
 }));
 
 app.use('/users', require('./routes/users'));
