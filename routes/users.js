@@ -19,7 +19,7 @@ router.post('/register', async (req, res) => {
         }
         
         await newUser.save();
-        res.redirect('/');
+        res.redirect('/users/login');
     } catch (error) {
         console.error('Error registering user:', error);
         res.status(500).send('Error registering user');

@@ -56,7 +56,9 @@
     </style>
 </head>
 <body>
-    <h1>Dashboard</h1>
+    <h1>Dashboard</h1><form action="/users/logout" method="get">
+        <button>logout</button>
+    </form>
     <% if (role === 'admin') { %>
         <h2>Admin Dashboard</h2>
         <form action="/meters/assign" method="POST">
@@ -89,7 +91,8 @@
         </ul>
     <% } else { %>
         <h2>Employee Dashboard</h2>
-        <b>Salary: <%= salary %></b>
+        <b>Salary: <%= salary %></b>4
+
         <form action="/transactions/add" method="POST">
             <h3>Add Transaction</h3>
             <input type="hidden" name="employee" value="<%= userId %>">
