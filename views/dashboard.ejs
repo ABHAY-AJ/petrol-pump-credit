@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        h1, h2, h3 {
+            color: #333;
+            text-align: center;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+        input, select, button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #5cb85c;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px auto;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dashboard</h1>
+    <% if (role === 'admin') { %>
+        <h2>Admin Dashboard</h2>
+        <form action="/meters/assign" method="POST">
+            <h3>Assign Meter</h3>
+            <input type="text" name="meterNumber" placeholder="Meter Number" required>
+            <select name="employee" required>
+                <option value="">choose employee (add employees if blank)</option>
+                <% employees.forEach(function(employee) { %>
+                    <option value="<%= employee._id %>"><%= employee.name %></option>
+                <% }); %>
+            </select>
+            <input type="text" name="product" placeholder="Product" required>
+            <button type="submit">Assign</button>
+        </form>
+        <h3>Pending Transactions</h3>
+        <ul>
+            <% transactions.forEach(function(transaction) { %>
+                <li>
+                    Client: <%= transaction.client %><br>
+                    Product: <%= transaction.product %><br>
+                    Amount: <%= transaction.amount %><br>
+                    <form action="/transactions/approve/<%= transaction.id %>" method="POST">
+                        <button type="submit">Approve</button>
+                    </form>
+                    <form action="/transactions/reject/<%= transaction.id %>" method="POST">
+                        <button type="submit">Reject</button>
+                    </form>
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <h2>Employee Dashboard</h2>
+        <b>Salary: <%= salary %></b>
+        <form action="/transactions/add" method="POST">
+            <h3>Add Transaction</h3>
+            <input type="hidden" name="employee" value="<%= userId %>">
+            <input type="text" name="client" placeholder="Client Name" required>
+            <input type="text" name="product" placeholder="Product" required>
+            <input type="number" name="amount" placeholder="Amount" required>
+            <select name="meter" required>
+                <option value="">choose meter (Assign meter to employee if blank)</option>
+                <% meters.forEach(function(meter) { %>
+                    <option value="<%= meter._id %>"><%= meter.meterNumber %></option>
+                <% }); %>
+            </select>
+            <button type="submit">Add Transaction</button>
+        </form>
+    <% } %>
+</body>
+</html>

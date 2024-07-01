@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            margin: 50px auto;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        input, select, button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #5cb85c;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+    <h1>Register</h1>
+    <form action="/users/register" method="POST" id="registrationForm">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <select name="role" id="roleSelect" onchange="handleRoleChange()">
+            <option value="employee">Employee</option>
+            <option value="admin">Admin</option>
+        </select>
+        <input type="number" name="salary" id="salaryInput" placeholder="Salary" required>
+        <button type="submit">Register</button>
+    </form>
+
+    <script>
+        function handleRoleChange() {
+            var roleSelect = document.getElementById('roleSelect');
+            var salaryInput = document.getElementById('salaryInput');
+
+            if (roleSelect.value === 'admin') {
+                salaryInput.disabled = true;
+            } else {
+                salaryInput.disabled = false;
+            }
+        }
+
+        // Initial state based on default select value
+        handleRoleChange();
+    </script>
+</body>
+</html>
